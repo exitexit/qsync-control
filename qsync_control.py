@@ -185,7 +185,7 @@ def set_group(arg_group_name, arg_position):
             (group_addr, group_code) = groups[arg_group_name]
             command_body = '000000' + group_code + position_code
             command_body_length = int(len(command_body)/2)  # number of bytes
-            command = '1b' + num_to_hex(command_body_length) + command_body
+            command = '1b' + num_to_hex(command_body_length) + command_body  # Example: '1b050000000901'
 
             socket_tcp.send(bytes.fromhex(command))
             debug_print('SEND: ' + command)
@@ -233,7 +233,7 @@ def set_scene(arg_scene_name):
                 command_body += '000000' + group_code + position_code
 
             command_body_length = int(len(command_body)/2)  # number of bytes
-            command = '1b' + num_to_hex(command_body_length) + command_body  # Example: '1b0f0000000a020000000b020000000c02'
+            command = '1b' + num_to_hex(command_body_length) + command_body  # Example: '1b0a0000000b020000001602'
 
             socket_tcp.send(bytes.fromhex(command))
             debug_print('SEND: ' + command)
