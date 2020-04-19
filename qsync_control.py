@@ -24,7 +24,7 @@ DEBUG = 0
 def discover_qsync():
 
     message = bytes(1)  # 1 byte of 0x00
-    address = ('255.255.255.255', 9720)
+    address = ('255.255.255.255', 9720)  # QSync by default listens on UDP port 9720
 
     socket_udp = None
     try:
@@ -181,7 +181,7 @@ def set_group(arg_group_name, arg_position):
 
         (groups, scenes) = retrieve_groups_and_scenes_with_socket(socket_tcp)
 
-        if arg_group_name in groups:
+        if groups is not None and arg_group_name in groups:
             (group_addr, group_code) = groups[arg_group_name]
             command_body = '000000' + group_code + position_code
             command_body_length = int(len(command_body)/2)  # number of bytes
@@ -221,7 +221,7 @@ def set_scene(arg_scene_name):
 
         (groups, scenes) = retrieve_groups_and_scenes_with_socket(socket_tcp)
 
-        if arg_scene_name in scenes:
+        if scenes is not None and arg_scene_name in scenes:
             addr_to_code = {}
             for group_addr, group_code in groups.values():
                 addr_to_code[group_addr] = group_code
