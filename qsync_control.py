@@ -253,6 +253,69 @@ def set_scene(arg_scene_name):
             socket_tcp.close()
 
 
+# We can use the scene logic to set multiple blind groups in one request by
+# constructing a virtual scene on the fly.
+# Usage: set_groups(room1, pos1, room2, pos2, ...)
+# Example: set_groups('Living Room', 100, 'Bedroom', 0)
+def set_groups(*argv):
+    argv_len = len(argv)
+    if argv_len == 0:
+        print('ERROR: Empty argument list!')
+        return
+    elif argv_len % 2 != 0:
+        print('ERROR: Must have even number of arguments!')
+        return
+    else:
+        custom_group_list = {}
+        for i in range(0, argv_len, 2):
+            group_name = argv[i]
+            position_code = position_to_code(argv[i+1])
+            if group_name is None:
+                print('ERROR: Invalid group name!')
+                return
+            if group_name in custom_group_list:
+                print('ERROR: Duplicate group name!')
+                return
+            if position_code == '00':
+                print('ERROR: Invalid position value!')
+                return
+            custom_group_list[group_name] = position_code
+
+    socket_tcp = None
+    try:
+        socket_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        socket_tcp.connect((QSYNC_IP, QSYNC_PORT))
+
+        (groups, scenes) = retrieve_groups_and_scenes_with_socket(socket_tcp)
+
+        # Construct a virtual scene with a custom list of blind groups.
+        command_body = ''
+        for group_name, position_code in custom_group_list.items():
+            if groups is not None and group_name in groups:
+                (group_addr, group_code) = groups[group_name]
+                command_body += '000000' + group_code + position_code
+            else:
+                print('ERROR: Group not found!')
+                return
+
+        command_body_length = int(len(command_body)/2)  # number of bytes
+        command = '1b' + num_to_hex(command_body_length) + command_body  # Example: '1b0a0000000b020000001602'
+
+        socket_tcp.send(bytes.fromhex(command))
+        debug_print('SEND: ' + command)
+
+        data = socket_tcp.recv(2048)
+        data_hex = bytes_to_hex(data)
+        debug_print('RECV: ' + data_hex)
+
+    except Exception as err:
+        print('ERROR: ' + str(err))
+
+    finally:
+        if socket_tcp is not None:
+            socket_tcp.close()
+
+
 # Range from 0 to 255
 def num_to_hex(num):
     return '{:02x}'.format(num)
