@@ -334,17 +334,17 @@ def position_to_code(position):
     if position == 25:
         return '0c'
     if position == 37.5:
-        return '0b';
+        return '0b'
     if position == 50:
-        return '08';
+        return '08'
     if position == 62.5:
-        return '09';
+        return '09'
     if position == 75:
-        return '07';
+        return '07'
     if position == 87.5:
-        return '06';
+        return '06'
     if position == 100:
-        return '01';
+        return '01'
 
     return '00'
 
