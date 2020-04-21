@@ -34,6 +34,10 @@ Example: set a blind group to a specific shade position (fully up: 100, fully do
 ```
 >>> qsync_control.set_group('Living Room', 100)
 ```
+Example: set multiple blind groups to specific shade positions:
+```
+>>> qsync_control.set_groups('Living Room', 100, 'Bedroom', 0, 'Office', 0)
+```
 Example: set a scene:
 ```
 >>> qsync_control.set_scene('Movie Scene')
