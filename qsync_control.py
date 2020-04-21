@@ -33,7 +33,7 @@ def discover_qsync():
         socket_udp.setsockopt(socket.SOL_SOCKET, socket.SO_BROADCAST, 1)  # allow UDP broadcast
 
         socket_udp.sendto(message, address)
-        (data, (ip, port)) = socket_udp.recvfrom(1024)
+        (_data, (ip, _port)) = socket_udp.recvfrom(1024)
         print('QSYNC IP: ' + ip)
 
     except Exception as err:
@@ -179,10 +179,10 @@ def set_group(arg_group_name, arg_position):
         socket_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket_tcp.connect((QSYNC_IP, QSYNC_PORT))
 
-        (groups, scenes) = retrieve_groups_and_scenes_with_socket(socket_tcp)
+        (groups, _scenes) = retrieve_groups_and_scenes_with_socket(socket_tcp)
 
         if groups is not None and arg_group_name in groups:
-            (group_addr, group_code) = groups[arg_group_name]
+            (_group_addr, group_code) = groups[arg_group_name]
             command_body = '000000' + group_code + position_code
             command_body_length = int(len(command_body)/2)  # number of bytes
             command = '1b' + num_to_hex(command_body_length) + command_body  # Example: '1b050000000901'
@@ -286,13 +286,13 @@ def set_groups(*argv):
         socket_tcp = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         socket_tcp.connect((QSYNC_IP, QSYNC_PORT))
 
-        (groups, scenes) = retrieve_groups_and_scenes_with_socket(socket_tcp)
+        (groups, _scenes) = retrieve_groups_and_scenes_with_socket(socket_tcp)
 
         # Construct a virtual scene with a custom list of blind groups.
         command_body = ''
         for group_name, position_code in custom_group_list.items():
             if groups is not None and group_name in groups:
-                (group_addr, group_code) = groups[group_name]
+                (_group_addr, group_code) = groups[group_name]
                 command_body += '000000' + group_code + position_code
             else:
                 print('ERROR: Group not found!')
