@@ -12,10 +12,17 @@ If you are looking for a Javascript library for the same purpose, check out http
 ##### qsync_control.py
 The file contains a set of utilities for communicating with the QSync device and controlling the QMotion blinds paired with the QSync device. The code is written mostly in procedural format for ease of comprehension.
 
+## Install PyPI Package
+```
+pip3 install qsync_control
+```
+More documentation can be found at: https://pypi.org/project/qsync-control/
+
 ## Sample Usage
 
 First, identify the local IP address of the QSync device:
 ```
+>>> import qsync_control
 >>> qsync_control.discover_qsync()
 QSYNC IP: 192.168.0.132
 ```
