@@ -2,7 +2,7 @@
 
 Like my code? [![donate](https://img.shields.io/badge/%24-Buy%20me%20a%20coffee-ef864e.svg)](https://www.buymeacoffee.com/exitexit) or consider donating to my Ether wallet: 0x3c2f57171FBc82D1F54de74f20Ce174ca4874298
 
-A Python library for operating QMotion blinds controlled a QSync device on the local network. The program is written in Python 3.
+A Python library for operating QMotion blinds controlled by a QSync device on the local network. The program is written in Python 3.
 Network protocol dissection can be found in the comments within the [qsync_control.py](./qsync_control.py) file. Protocol details are inferred from Wireshark monitoring of the network traffic between the [QMotion QSync iPhone app](https://apps.apple.com/us/app/qmotion-qsync/id1269686306) and the [QSync device](http://www.qmotionshades.com/products/25-controls/218-qsync).
 
 If you are looking for a Javascript library for the same purpose, check out https://github.com/devbobo/qmotion
